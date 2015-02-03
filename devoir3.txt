@@ -1,0 +1,58 @@
+
+{
+  variable = { 
+    PI : Math.PI, 
+    E  : Math.E 
+  };
+  functions = {
+    squared : function(n) { return n * n; },
+    incr    : function(n) { return n + 1; }
+  }
+}
+
+start
+
+
+statement
+=left:variable " = " right:additive terminator line{return right}
+/left:variable " = " right:multiplicative terminator line {return right}
+/left:variable " = " right:substraction terminator line{return right}
+/left:variable " = " right:division terminator line{return right}
+
+
+ifstatement
+="wth"["  "]* left:(variable/integer) " == " right:(variable/integer) terminator line {return eval(left)==eval(right)}
+/"wth"["  "]* left:(variable/integer) " < " right:(variable/integer) terminator line {return (left<right)}
+/"wth"["  "]* left:(variable/integer) " > " right:(variable/integer) terminator line {return (left>right)}
+
+
+
+additive
+ = left:multiplicative "+" right:additive { return left + right; }
+ / multiplicative
+
+
+
+multiplicative
+ = left:power "*" right:additive { return left * right; }
+ / power
+
+// evaluated left to right!
+power
+ = left:primary "^" right:additive { return Math.pow(left, right); }
+ / primary
+
+primary
+ = integer
+ / "(" e:additive ")"      { return e; }
+ / i:id "(" e:additive ")" { return functions[i.join("")](e); }
+ / i:id                    { return variables[i.join("")]; }
+
+integer
+  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+
+terminator
+=["  "]*"€"
+
+id
+ = [a-zA-Z]+
