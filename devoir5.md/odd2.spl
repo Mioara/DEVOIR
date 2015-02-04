@@ -1,0 +1,18 @@
+int num >:D<
+boolean odd >:D<
+boolean bighug >:D<
+
+num = 10 >:D<
+bighug=true >:D<
+read num >:D<
+
+if (num>15)
+if (num % 2 != 0)
+   odd = true >:D< 
+else		
+   bighug = false >:D<
+>:D< >:D<
+>:D< >:D<
+
+write odd >:D<
+write bighug >:D<
